@@ -12,7 +12,7 @@ addons_shortcuts:
   addons_gcc5: &gcc5
     apt:
       sources:  [ 'ubuntu-toolchain-r-test' ]
-      packages: [ 'gdb', 'g++-5', 'gcc-5',
+      packages: [ 'gdb', 'g++-5', 'gcc-5', 'libjemalloc-dev',
                   'mesa-utils', 'libxi-dev', 'libglu1-mesa-dev', 'x11proto-randr-dev', 'x11proto-xext-dev', 'libxrandr-dev',
                   'x11proto-xf86vidmode-dev', 'libxxf86vm-dev', 'libxcursor-dev', 'libxinerama-dev' ]
   addons_qt4: &qt4
@@ -85,6 +85,9 @@ matrix:
       compiler: "glfw-gcc5-release"
       env: BUILDTYPE=Release _CXX=g++-5 _CC=gcc-5
       addons: *gcc5
+      script:
+        - make linux
+        - PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so make test-linux
 
     # Clang 3.5 - Debug
     - os: linux
